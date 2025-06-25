@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Slot Game - 10 Spins</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 30px; }
+    .slot { font-size: 40px; margin: 10px; }
+    #results { margin-top: 20px; font-size: 18px; }
+    button { padding: 10px 20px; font-size: 18px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <h1>🎰 Simple Slot Game</h1>
+  <div id="slot-display" class="slot">❓ ❓ ❓</div>
+  <button onclick="startSlot()">Start (10 Spins)</button>
+  <div id="results"></div>
+
+  <script>
+    const symbols = ["🍒", "🍋", "🔔", "⭐", "🍇", "7️⃣"];
+    const totalSpins = 10;
+    let currentSpin = 0;
+    let results = [];
+
+    function getRandomSymbol() {
+      return symbols[Math.floor(Math.random() * symbols.length)];
+    }
+
+    function spinOnce() {
+      const reel1 = getRandomSymbol();
+      const reel2 = getRandomSymbol();
+      const reel3 = getRandomSymbol();
+      document.getElementById("slot-display").textContent = `${reel1} ${reel2} ${reel3}`;
+
+      // Check if all symbols match = win
+      let resultText = `${reel1} ${reel2} ${reel3}`;
+      if (reel1 === reel2 && reel2 === reel3) {
+        resultText += " - 🎉 Win!";
+      } else {
+        resultText += " - ❌ Try Again";
+      }
+
+      results.push(resultText);
+      currentSpin++;
+
+      if (currentSpin < totalSpins) {
+        setTimeout(spinOnce, 800);
+      } else {
+        showResults();
+      }
+    }
+
+    function startSlot() {
+      currentSpin = 0;
+      results = [];
+      document.getElementById("results").textContent = "Spinning...";
+      spinOnce();
+    }
+
+    function showResults() {
+      let output = `<h3>🧾 Results:</h3><ol>`;
+      results.forEach(result => {
+        output += `<li>${result}</li>`;
+      });
+      output += "</ol>";
+      document.getElementById("results").innerHTML = output;
+    }
+  </script>
+
+</body>
+</html>
